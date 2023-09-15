@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TestTask.Services;
 
 namespace TestTask.Controllers
@@ -8,20 +7,24 @@ namespace TestTask.Controllers
     [Route("[controller]")]
     public class TaskTestController : ControllerBase
     {
-        AzureBlobService _service;
+        public static string LastEmail = "";
+        AzureBlobService _blobService;
         public TaskTestController(AzureBlobService service)
         {
+            this._blobService = service;
+        }
 
-            this._service = service;
-
+        [HttpGet("email")]
+        public async Task<string> GetEmail()
+        {
+            return LastEmail;
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile([FromForm]EmailModel file)
+        public async Task<IActionResult> UploadFile([FromForm] DataModel file)
         {
             try
             {
-
                 if (file == null)
                 {
                     return BadRequest("Please select a file to upload.");
@@ -36,23 +39,19 @@ namespace TestTask.Controllers
                 {
                     return BadRequest("Invalid email address.");
                 }
-                var response = await _service.UploadFiles(new List<IFormFile>() { file.File });
 
-                return Ok("File uploaded successfully.");
+                LastEmail = file.Email;
+
+                var response = await _blobService.UploadFiles(new List<IFormFile>() { file.File });
+                return StatusCode(response.FirstOrDefault().GetRawResponse().Status);
+
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal Server Error: {ex.Message}");
             }
         }
-        
-        [HttpGet("area")]
-        public IActionResult Area(int altitude, int height)
-        {
-            double area = altitude * height / 2;
-            return Content($"Площадь треугольника с основанием {altitude} и высотой {height} равна {area}");
-        }
-        [HttpPost]
+
         private bool IsValidEmail(string email)
         {
             try
@@ -66,4 +65,4 @@ namespace TestTask.Controllers
             }
         }
     }
-} 
+}
