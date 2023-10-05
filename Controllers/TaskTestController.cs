@@ -7,17 +7,10 @@ namespace TestTask.Controllers
     [Route("[controller]")]
     public class TaskTestController : ControllerBase
     {
-        public static string LastEmail = "";
         AzureBlobService _blobService;
         public TaskTestController(AzureBlobService service)
         {
             this._blobService = service;
-        }
-
-        [HttpGet("email")]
-        public async Task<string> GetEmail()
-        {
-            return LastEmail;
         }
 
         [HttpPost("upload")]
@@ -40,9 +33,10 @@ namespace TestTask.Controllers
                     return BadRequest("Invalid email address.");
                 }
 
-                LastEmail = file.Email;
-
                 var response = await _blobService.UploadFiles(new List<IFormFile>() { file.File });
+
+                await _blobService.AddMetadataToFile(file.File.FileName,file.Email);
+
                 return StatusCode(response.FirstOrDefault().GetRawResponse().Status);
 
             }

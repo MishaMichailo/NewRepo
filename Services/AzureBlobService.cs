@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 
 namespace TestTask.Services
@@ -7,7 +8,7 @@ namespace TestTask.Services
     {
         BlobServiceClient _blobClient;
         BlobContainerClient _containerClient;
-        string azureConnectionString = "DefaultEndpointsProtocol=https;AccountName=servicestorages;AccountKey=5iLgS9eTGosztTFqq5yTFRwzTDUshjCKkiIPRPfqAfXmZxoB72oafkLgFySFO5KLiJt809uiyJYv+AStYux3Dw==;EndpointSuffix=core.windows.net";
+        string azureConnectionString = "DefaultEndpointsProtocol=https;AccountName=servicestorages;AccountKey=67UMofqGgZzCRhZm1E1IK2l9NS+C6NOdvwjHE3r7V+02zGomoMmcKHlZLH1xgUpCj9OEaZhxbrVz+AStzkMh7g==;EndpointSuffix=core.windows.net";
         public AzureBlobService()
         {
             _blobClient = new BlobServiceClient(azureConnectionString);
@@ -43,6 +44,30 @@ namespace TestTask.Services
             }
 
             return items;
+        }
+
+        internal Task AddMetadataToFile()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal async Task AddMetadataToFile(string blobName, string email)
+        {
+            try
+            {
+                var blob = _containerClient.GetBlobClient(blobName);
+
+                IDictionary<string, string> metadata =
+                   new Dictionary<string, string>();
+
+                metadata["email"] = email;
+
+                await blob.SetMetadataAsync(metadata);
+            }
+            catch (RequestFailedException e)
+            {
+                throw;
+            }
         }
     }
 }

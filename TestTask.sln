@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTask", "TestTask.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlobFunctionApp", "..\BlobFunctionApp\BlobFunctionApp.csproj", "{01C89F56-D7CB-4FEB-9E51-A36585729636}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestControllers", "..\TestControllers\TestControllers.csproj", "{BC94D50E-8112-4AE3-91D8-EFC4613C778E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestControllers", "..\TestControllers\TestControllers.csproj", "{BC94D50E-8112-4AE3-91D8-EFC4613C778E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
