@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace TestTask
+﻿namespace TestTask.Models
 {
-    public class EmailModel
+    public class DataModel
     {
         public IFormFile File { get; set; }
         public string? Email { get; set; }
-
-
 
     }
 }

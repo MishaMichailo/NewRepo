@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TestTask.Models;
 using TestTask.Services;
 
 namespace TestTask.Controllers

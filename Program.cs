@@ -1,4 +1,5 @@
 using TestTask.Services;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<AzureBlobService>();
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
+builder.Services.AddAzureClients(clientBuilder =>
+{
+    clientBuilder.AddBlobServiceClient(builder.Configuration["Service:blob"], preferMsi: true);
+    clientBuilder.AddQueueServiceClient(builder.Configuration["Service:queue"], preferMsi: true);
+});
 
 
 var app = builder.Build();
@@ -20,7 +27,7 @@ app.UseCors(builder => builder
      .AllowAnyOrigin()
      .AllowAnyMethod()
      .AllowAnyHeader());
-
+ 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

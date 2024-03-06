@@ -8,11 +8,11 @@ namespace TestTask.Services
     {
         BlobServiceClient _blobClient;
         BlobContainerClient _containerClient;
-        string azureConnectionString = "DefaultEndpointsProtocol=https;AccountName=servicestorages;AccountKey=67UMofqGgZzCRhZm1E1IK2l9NS+C6NOdvwjHE3r7V+02zGomoMmcKHlZLH1xgUpCj9OEaZhxbrVz+AStzkMh7g==;EndpointSuffix=core.windows.net";
+        string azureConnectionString = "DefaultEndpointsProtocol=https;AccountName=testtaskstorage7777;AccountKey=K0qBAvD/cLJzGg3acpXGOyIPm/ljEc61M9SvxCa3vA/sfYNDBwu0n9BJjN4S3Eh88gd4K2ItsnTW+ASt2c+uSw==;EndpointSuffix=core.windows.net";
         public AzureBlobService()
         {
             _blobClient = new BlobServiceClient(azureConnectionString);
-            _containerClient = _blobClient.GetBlobContainerClient("filesupload");
+            _containerClient = _blobClient.GetBlobContainerClient("azurestoragecontainer");
         }
 
         public async Task<List<Azure.Response<BlobContentInfo>>> UploadFiles(List<IFormFile> files)

@@ -20,20 +20,7 @@ namespace TestTask
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
-                );
-
-                // Additional route configurations for your controller
-                endpoints.MapControllerRoute(
-                    name: "fileUpload",
-                    pattern: "file-upload/{action=UploadFile}",
-                    defaults: new { controller = "FileUpload" }
-                );
-            });
+            
         }
     }
 }
